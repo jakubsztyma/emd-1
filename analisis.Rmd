@@ -11,6 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Used libraries
 ```{r libraries}
+library(corrplot)
 ```
 
 ## Set seed to make experiment results recurrent
@@ -21,7 +22,8 @@ set.seed(5)
 ## Read data from file
 ```{r read data}
 filename <- "sledzie.csv"
-df <- read.csv(filename, na.strings=c("?"), nrows = 100)
+df <- read.csv(filename, na.strings=c("?"), nrows = 1000)
+df <- df[, names(df) != 'X'] # Remove column X
 print("Is data.frame instance?")
 print(is.data.frame(df))
 ```
@@ -48,10 +50,10 @@ for(name in names(df)){
 }
 ```
 
-## R Markdown
+## Show correlation matrix
+```{r correlation matrix}
+corr_matrix <- cor(df)
+corrplot(corr_matrix, method="circle", type="upper", col=c("black", "white"), bg="lightblue")
+```
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk.
-You can also embed plots.:
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

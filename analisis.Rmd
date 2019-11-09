@@ -9,19 +9,44 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+## Used libraries
+```{r libraries}
+```
+
+## Set seed to make experiment results recurrent
+```{r set seed}
+set.seed(5)
+```
+
 ## Read data from file
 ```{r read data}
 filename <- "sledzie.csv"
-data <- read.csv(filename, na.strings=c("?"), nrows = 10)
+df <- read.csv(filename, na.strings=c("?"), nrows = 100)
+print("Is data.frame instance?")
+print(is.data.frame(df))
 ```
 
 ## Parse data
 ```{r parse data}
-full_rows <- complete.cases(data)
-data <- data[full_rows,]
-print(data)
+full_rows <- complete.cases(df)
+df <- df[full_rows,]
+print(df)
 ```
 
+## Data set summary
+```{r summary}
+print("Size of cleared data:")
+print(nrow(df))
+print(sapply(df, mean))
+```
+
+## Show attribute distributions
+```{r attributes distribution}
+for(name in names(df)){
+  d <- density(df[, name])
+  plot(d, main="Density")
+}
+```
 
 ## R Markdown
 

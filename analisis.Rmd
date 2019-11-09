@@ -24,16 +24,15 @@ set.seed(5)
 ```{r read data}
 filename <- "sledzie.csv"
 df <- read.csv(filename, na.strings=c("?"), nrows = 1000)
-df <- df[, names(df) != 'X'] # Remove column X
 print("Is data.frame instance?")
 print(is.data.frame(df))
 ```
 
 ## Parse data
 ```{r parse data}
+df <- df[, names(df) != 'X'] # Remove column X
 full_rows <- complete.cases(df)
 df <- df[full_rows,]
-print(df)
 ```
 
 ## Data set summary

@@ -1,0 +1,32 @@
+---
+title: "analisis"
+author: "Mateusz Kapiszewski, Jakub Sztyma"
+date: "November 9, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Read data from file
+```{r read data}
+filename <- "sledzie.csv"
+data <- read.csv(filename, na.strings=c("?"), nrows = 10)
+```
+
+## Parse data
+```{r parse data}
+full_rows <- complete.cases(data)
+data <- data[full_rows,]
+print(data)
+```
+
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk.
+You can also embed plots.:
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

@@ -12,6 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Used libraries
 ```{r libraries}
 library(corrplot)
+library(DAAG)
 ```
 
 ## Set seed to make experiment results recurrent
@@ -37,9 +38,10 @@ print(df)
 
 ## Data set summary
 ```{r summary}
+
 print("Size of cleared data:")
 print(nrow(df))
-print(sapply(df, mean))
+print(summary(df))
 ```
 
 ## Show attribute distributions
@@ -53,7 +55,25 @@ for(name in names(df)){
 ## Show correlation matrix
 ```{r correlation matrix}
 corr_matrix <- cor(df)
-corrplot(corr_matrix, method="circle", type="upper", col=c("black", "white"), bg="lightblue")
+corrplot(corr_matrix, method="pie", col=c("black", "white"), bg="lightblue")
 ```
 
+## Herring length in time
+```{r length in time}
 
+```
+
+## Regression model
+```{r regression}
+# sst has the biggest correlation with length
+# cfin2 has big correlation with length and relatively small with sst
+# nao has correlation with length but does not have big correlation with sst or cfin2
+# There is no need in adding more attributes to regression as the rest of attributes are very much correlated
+formula <- length ~ sst + cfin2 + nao
+linearMod <- lm(formula, data=df)  # build linear regression model on full data
+summary(linearMod)
+
+cvResults <- suppressWarnings(CVlm(df, form.lm=formula, m=5, dots=FALSE, seed=29, legend.pos="topleft",  printit=FALSE, main="Small symbols are predicted values while bigger ones are actuals."));  # performs the CV
+attr(cvResults, 'ms')
+
+```

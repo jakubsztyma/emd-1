@@ -1,9 +1,25 @@
 ---
-title: "analisis"
+title: "EMD Project1"
 author: "Mateusz Kapiszewski, Jakub Sztyma"
-date: "November 9, 2019"
-output: html_document
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document: 
+    toc: true
+    toc_depth: 2
+  pdf_document: default
 ---
+Analiza pokazała że 
+
+## Podsumowanie
+Analiza zbioru danych pozwoliła na powiązanie rozmiaru poławianych śledzi z atrybutami ze zbioru danych.
+Znaczna część atrybutóW zawiera silne korelacje pomiędzy sobą.
+Na podstawie wykorzystanych w badaniu danych można wywnioskować, że realny wpływ na długość poławianych śledzi mają między innym:
+
+1.  temperatura przy powierzchni wody [°C];
+2.  dostępność planktonu [zagęszczenie Calanus finmarchicus gat. 2];
+3.  oscylacja północnoatlantycka [mb].
+
+Pozostałe atrybuty w znacznym stopniu wynikają z powyżej wybranych lub nie są skorelowane z długością śledzi.
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -13,6 +29,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r libraries}
 library(corrplot)
 library(DAAG)
+library(ggplot2)
+library(plotly)
 ```
 
 ## Set seed to make experiment results recurrent
@@ -23,16 +41,19 @@ set.seed(5)
 ## Read data from file
 ```{r read data}
 filename <- "sledzie.csv"
-df <- read.csv(filename, na.strings=c("?"), nrows = 1000)
+df <- read.csv(filename, na.strings=c("?"))
 print("Is data.frame instance?")
 print(is.data.frame(df))
 ```
 
-## Parse data
+## Parse data (replace Na with a column mean value)
 ```{r parse data}
 df <- df[, names(df) != 'X'] # Remove column X
-full_rows <- complete.cases(df)
-df <- df[full_rows,]
+df <- data.frame(
+   sapply( df,
+       function(x)ifelse(is.na(x), mean(x, na.rm=TRUE), x)
+   )
+)
 ```
 
 ## Data set summary
@@ -47,7 +68,7 @@ print(summary(df))
 ```{r attributes distribution}
 for(name in names(df)){
   d <- density(df[, name])
-  plot(d, main="Density")
+  plot(d, main=name)
 }
 ```
 
@@ -59,7 +80,17 @@ corrplot(corr_matrix, method="pie", col=c("black", "white"), bg="lightblue")
 
 ## Herring length in time
 ```{r length in time}
+number_to_aggregate <- 100
+aggregated <- aggregate(df
+                        , list(rep(1:(nrow(df)%/%number_to_aggregate+1), each=number_to_aggregate, len=nrow(df)))
+                        , mean)[-1]
 
+aggregated$timeline <- as.numeric(row.names(aggregated))
+p <- ggplot(aggregated, aes(timeline, length, size=sst)) + geom_point() + theme_bw()
+plotly::ggplotly(p)
+
+p_sst <- ggplot(aggregated, aes(timeline, sst, size=length)) + geom_point() + theme_bw()
+plotly::ggplotly(p_sst)
 ```
 
 ## Regression model

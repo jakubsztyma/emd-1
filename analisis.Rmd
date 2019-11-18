@@ -107,3 +107,5 @@ cvResults <- suppressWarnings(CVlm(df, form.lm=formula, m=5, dots=FALSE, seed=29
 attr(cvResults, 'ms')
 
 ```
+## Regression model interpretation
+Zgodnie z zaobserwowanymi wcześniej własnościami zbioru danych, przygotowany model regresji liniowej mówi, że atrybut sst ma największe znaczenie dla wyniku regresji liniowej. Estymowana wartość tego atrybutu wynosi ~-1.63, przy czym wartość następnego pod względem ważności atrybutu wynosi ~-0.33. Najmniej znaczący atrybut modelu regresji (cfin2), ma wartość tylko ~-0.0007.

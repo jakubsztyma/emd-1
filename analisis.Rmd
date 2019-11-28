@@ -8,18 +8,17 @@ output:
     toc_depth: 2
   pdf_document: default
 ---
-Analiza pokazała że 
 
-## Podsumowanie
-Analiza zbioru danych pozwoliła na powiązanie rozmiaru poławianych śledzi z atrybutami ze zbioru danych.
-Znaczna część atrybutóW zawiera silne korelacje pomiędzy sobą.
-Na podstawie wykorzystanych w badaniu danych można wywnioskować, że realny wpływ na długość poławianych śledzi mają między innym:
+## Summary
+The analysis of the data set allowed linking the size of the herring caught with the attributes from the data set.
+A significant part of the attributes contain strong correlations with each other.
+Based on the data used in the study, it can be concluded that the real impact on the length of herring caught has, among others:
 
-1.  temperatura przy powierzchni wody [°C];
-2.  dostępność planktonu [zagęszczenie Calanus finmarchicus gat. 2];
-3.  oscylacja północnoatlantycka [mb].
+1.  temperature at the water surface [°C];
+2.  plankton availability [compaction Calanus finmarchicus species 2];
+3.  North Atlantic Oscillation [mb].
 
-Pozostałe atrybuty w znacznym stopniu wynikają z powyżej wybranych lub nie są skorelowane z długością śledzi.
+The remaining attributes largely result from the above selected or are not correlated with the length of herring.
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -108,4 +107,4 @@ attr(cvResults, 'ms')
 
 ```
 ## Regression model interpretation
-Zgodnie z zaobserwowanymi wcześniej własnościami zbioru danych, przygotowany model regresji liniowej mówi, że atrybut sst ma największe znaczenie dla wyniku regresji liniowej. Estymowana wartość tego atrybutu wynosi ~-1.63, przy czym wartość następnego pod względem ważności atrybutu wynosi ~-0.33. Najmniej znaczący atrybut modelu regresji (cfin2), ma wartość tylko ~-0.0007.
+According to the previously observed properties of the data set, the prepared linear regression model says that the sst attribute is most important for the result of linear regression.The estimated value of this attribute is ~ -1.63, while the value of the next most-important attribute is ~ -0.33. The least significant attribute of the regression model (cfin2) is only ~ -0.0007.

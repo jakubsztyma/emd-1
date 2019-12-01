@@ -1,5 +1,5 @@
 ---
-title: "EMD Project1"
+title: "EMD Project 1"
 author: "Mateusz Kapiszewski, Jakub Sztyma"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
@@ -10,15 +10,15 @@ output:
 ---
 
 ## Summary
-The analysis of the data set allowed linking the size of the herring caught with the attributes from the data set.
-A significant part of the attributes contain strong correlations with each other.
-Based on the data used in the study, it can be concluded that the real impact on the length of herring caught has, among others:
+The analysis of the data allowed to connect the size of the herring caught with the attributes from the data set.
+Many attributes have a strong correlations with each other.
+Based on the data used in the study, it can be concluded that the real impact on the length of herring caught have, most of all:
 
-1.  temperature at the water surface [°C];
-2.  plankton availability [compaction Calanus finmarchicus species 2];
-3.  North Atlantic Oscillation [mb].
+1.  sst: temperature at the water surface [°C];
+2.  cfin2: plankton availability [compaction Calanus finmarchicus species 2].
 
-The remaining attributes largely result from the above selected or are not correlated with the length of herring.
+The remaining attributes largely correlate with the above selected or are not correlated with the length of herring.
+Adding them did not improve the accuracy of the linear regression.
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -98,7 +98,7 @@ plotly::ggplotly(p_sst)
 # cfin2 has big correlation with length and relatively small with sst
 # nao has correlation with length but does not have big correlation with sst or cfin2
 # There is no need in adding more attributes to regression as the rest of attributes are very much correlated
-formula <- length ~ sst + cfin2 + nao
+formula <- length ~ sst + nao
 linearMod <- lm(formula, data=df)  # build linear regression model on full data
 summary(linearMod)
 
@@ -107,4 +107,4 @@ attr(cvResults, 'ms')
 
 ```
 ## Regression model interpretation
-According to the previously observed properties of the data set, the prepared linear regression model says that the sst attribute is most important for the result of linear regression.The estimated value of this attribute is ~ -1.63, while the value of the next most-important attribute is ~ -0.33. The least significant attribute of the regression model (cfin2) is only ~ -0.0007.
+According to the previously observed properties of the data set, the prepared linear regression model says that the sst attribute is the most important for the result of linear regression.The estimated regression coefficient value of this attribute is ~ -1.63, while the value of the next most-important attribute is ~ -0.33. Adding the remaining attributes did not improve the accuracy of the linear regression.
